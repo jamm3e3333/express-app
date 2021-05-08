@@ -9,7 +9,8 @@ router.post('/users/create', async(req, res) => {
     const user = new User(req.body);
     try{
         if(!user){
-            throw new Error("Chyba serveru.");
+            return res.status(500)
+                        .send("Chyba serveru.");
         }
         await user.save();
         const token = await user.genAuthToken();
@@ -44,7 +45,7 @@ router.post('/users/logout', auth, async(req, res) => {
         req.user.tokens = tokens;
         await req.user.save();
         res.status(200)
-            .send("User logged out.");
+            .send("Uživatel odhlášen.");
     }
     catch(e){
         res.status(400)
