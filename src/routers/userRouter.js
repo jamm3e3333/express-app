@@ -1,6 +1,9 @@
-const User = require('../../models/user.js');
+const validator = require('validator');
 const epxress = require('express');
 const router = new epxress.Router();
+const User = require('../../models/user.js');
+const auth = require('../../middleware/auth.js');
+const validCard = require('../utils/req.js');
 
 router.post('/users/create', async(req, res) => {
     const user = new User(req.body);
@@ -32,5 +35,24 @@ router.post('/users/login', async(req, res) => {
             .send({error: e.message});
     }
 })
+
+router.get('/card/:id', auth, async(req, res) => {
+    const card = req.params.id;
+    const valid = validator.isCreditCard(card.toString());
+
+    if(!valid){
+        return res.status(400)
+            .send('Neplatné číslo karty.');
+    }
+    validCard(card, (err, {valid, state}) => {
+        if(err){
+            return res.status(400)
+                    .send({error: err.message});
+        }
+        res.status(200)
+            .send({valid, state});
+    });
+
+});
 
 module.exports = router;
