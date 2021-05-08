@@ -6,13 +6,12 @@ const auth = async(req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ','');
         const valid = jwt.verify(token, process.env.JWT_SEC);
         
-        const user = await User.find({_id: valid._id, 'tokens.token': token});
+        const user = await User.findOne({_id: valid._id, 'tokens.token': token});
         if(!user){
             throw new Error("Nutné přihlášení!");
         }
-        req.body.user = user;
-        req.body.token = token;
-
+        req.user = user;
+        req.token = token;
         next();
     }
     catch(e){

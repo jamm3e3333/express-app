@@ -32,7 +32,49 @@ router.post('/users/login', async(req, res) => {
     }
     catch(e){
         res.status(400)
+            .send();
+    }
+})
+
+router.post('/users/logout', auth, async(req, res) => {
+    try{
+        const tokens = req.user.tokens.filter((tok) => {
+            return tok.token !== req.token;
+        })
+        req.user.tokens = tokens;
+        await req.user.save();
+        res.status(200)
+            .send("User logged out.");
+    }
+    catch(e){
+        res.status(400)
             .send({error: e.message});
+    }
+})
+
+router.post('/users/logout/all', auth, async(req, res) => {
+    const tokens = [];
+    try{
+        req.user.tokens = tokens;
+        await req.user.save();
+        res.status(200)
+            .send("Uživatel odhlášen ze všech zařízení.");
+    }
+    catch(e){
+        req.status(400)
+            .send();
+    }
+})
+
+router.delete('/users/delete', auth, async(req, res) => {
+    try{
+        await req.user.remove();
+        res.status(200)
+            .send("Uživatel byl odstraněn.");
+    }
+    catch(e){
+        req.status(400)
+            .send();
     }
 })
 
