@@ -1,0 +1,1 @@
+C:/Users/vaj03hr/mongodb/bin/mongod.exe --dbpath=C:/Users/vaj03hr/mongodb-data
