@@ -166,5 +166,14 @@ Response 401:
     "err": "Nutné přihlášení!"
 }
 ```
+# Unit testy
+![jest](https://user-images.githubusercontent.com/66072316/117577847-d0b10f80-b0eb-11eb-9cbf-04b00e871839.png)
+- unit testy pomocí framoworku jest
+- před spuštěním se vytvoří soubor test.env ve složce config
+- do souboru test.env se vloží proměnné JWT_SEC (secret pro vytvoření jwt), DB_URL (url pro připojení na mognoDB), CRD (číslo platné kreditní karty)
+- test se spustí příkazem ```npm run test```
+
+![image](https://user-images.githubusercontent.com/66072316/117577994-811f1380-b0ec-11eb-94d8-68f380089411.png)
+
 
 
