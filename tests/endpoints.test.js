@@ -19,23 +19,6 @@ beforeEach( async() => {
     await new User(userOne).save();
 })
 
-test('Vytvoří nového uživatele', async() => {
-    const response = await request(app).post('/users/create').send({
-        email: 'uzivatel@seznam.cz',
-        password: 'ahoj321'
-    }).expect(201)
-
-    const user = await User.findById(response.body.user._id);
-    expect(user).not.toBeNull()
-
-    expect(response.body).toMatchObject({
-        user: {
-            email: 'uzivatel@seznam.cz'
-        },
-        token: user.tokens[0].token
-    })
-});
-
 test('Autentizace existujícího uživatele', async() => {
     const response = await request(app).post('/users/login').send({
         email: userOne.email,
